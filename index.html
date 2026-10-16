@@ -126,6 +126,20 @@
             font-size: 1.08rem;
             line-height: 1.7;
             margin-bottom: 25px;
+            min-height: 90px; /* Giữ chỗ để khung không bị giật khi chữ đang chạy */
+        }
+
+        /* Dấu nháy chữ chạy */
+        .typing-cursor {
+            display: inline-block;
+            background-color: #d81b60;
+            width: 3px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* Tác giả */
@@ -190,9 +204,7 @@
     <div class="card">
         <h1>Chúc Mừng 20/10</h1>
         <h2>Gửi Cháu Yêu Quý! 💐</h2>
-        <p>
-            Nhân ngày Phụ nữ Việt Nam 20/10, chúc cháu luôn xinh đẹp, rạng rỡ, ngập tràn niềm vui và luôn thành công trên con đường mình đã chọn. Chúc cháu có một ngày lễ thật ý nghĩa và hạnh phúc! ✨💖
-        </p>
+        <p id="typed-text"></p>
         
         <button class="btn" onclick="startFireworks()">Bắn Pháo Hoa Rực Rỡ! 🎉</button>
 
@@ -200,6 +212,22 @@
     </div>
 
     <script>
+        // Hiệu ứng chữ chạy (Typing Effect)
+        const textToType = "Nhân ngày Phụ nữ Việt Nam 20/10, chúc cháu luôn xinh đẹp, rạng rỡ, ngập tràn niềm vui và luôn thành công trên con đường mình đã chọn. Chúc cháu có một ngày lễ thật ý nghĩa và hạnh phúc! ✨💖";
+        const typedTextElement = document.getElementById("typed-text");
+        let index = 0;
+
+        function typeText() {
+            if (index < textToType.length) {
+                typedTextElement.innerHTML = textToType.substring(0, index + 1) + '<span class="typing-cursor"></span>';
+                index++;
+                setTimeout(typeText, 45); // Tốc độ chạy chữ (miligiây)
+            } else {
+                // Xóa dấu nháy khi chạy xong
+                typedTextElement.innerHTML = textToType;
+            }
+        }
+
         // Tạo hiệu ứng cánh hoa rơi tự động
         function createPetals() {
             for (let i = 0; i < 20; i++) {
@@ -282,7 +310,8 @@
         }
 
         window.onload = () => {
-            setTimeout(startFireworks, 600);
+            setTimeout(typeText, 500); // Bắt đầu chạy chữ sau 0.5 giây
+            setTimeout(startFireworks, 1000); // Bắn pháo hoa sau 1 giây
         };
     </script>
 </body>
